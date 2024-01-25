@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=.\;Initial Catalog=Yan_Pechi</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:SecurityType>Integrated</rd:SecurityType>
+      <rd:DataSourceID>f730111b-f635-48bc-8f77-aa2e08deda05</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Отображающиеся_показатели">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>SELECT Простои.ID_Типа, Типы_простоев.Название_простоя, Технологические_агрегаты.Название_агрегата, Простои.ID_Агрегата, Технологические_агрегаты.Тип, Простои.Время_простоя_план, 
+                  Простои.Время_простоя_факт
+FROM     Простои INNER JOIN
+                  Типы_простоев ON Простои.ID_Типа = Типы_простоев.ID INNER JOIN
+                  Технологические_агрегаты ON Простои.ID_Агрегата = Технологические_агрегаты.ID</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID_Типа">
+          <DataField>ID_Типа</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Название_простоя">
+          <DataField>Название_простоя</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Название_агрегата">
+          <DataField>Название_агрегата</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ID_Агрегата">
+          <DataField>ID_Агрегата</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Тип">
+          <DataField>Тип</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Время_простоя_план">
+          <DataField>Время_простоя_план</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Время_простоя_факт">
+          <DataField>Время_простоя_факт</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet_Простои">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>SELECT Время_простоя_план, Время_простоя_факт, ID
+FROM     Простои</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Время_простоя_план">
+          <DataField>Время_простоя_план</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Время_простоя_факт">
+          <DataField>Время_простоя_факт</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Простои</Value>
+                    <Style>
+                      <FontFamily>Segoe UI Light</FontFamily>
+                      <FontSize>24pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>textbox1</rd:DefaultName>
+            <Height>0.42in</Height>
+            <Width>10.21542in</Width>
+            <Style>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Tablix Name="List1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>10.21542in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>4.37278in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="List1_Contents">
+                          <ReportItems>
+                            <Chart Name="Chart1">
+                              <ChartCategoryHierarchy>
+                                <ChartMembers>
+                                  <ChartMember>
+                                    <Group Name="Chart1_CategoryGroup1">
+                                      <GroupExpressions>
+                                        <GroupExpression>=Fields!Название_простоя.Value</GroupExpression>
+                                      </GroupExpressions>
+                                    </Group>
+                                    <SortExpressions>
+                                      <SortExpression>
+                                        <Value>=Fields!Название_простоя.Value</Value>
+                                      </SortExpression>
+                                    </SortExpressions>
+                                    <Label>=Fields!Название_простоя.Value</Label>
+                                  </ChartMember>
+                                </ChartMembers>
+                              </ChartCategoryHierarchy>
+                              <ChartSeriesHierarchy>
+                                <ChartMembers>
+                                  <ChartMember>
+                                    <Label>Время простоя план</Label>
+                                  </ChartMember>
+                                  <ChartMember>
+                                    <Label>Время простоя факт</Label>
+                                  </ChartMember>
+                                </ChartMembers>
+                              </ChartSeriesHierarchy>
+                              <ChartData>
+                                <ChartSeriesCollection>
+                                  <ChartSeries Name="Время_простоя_план">
+                                    <ChartDataPoints>
+                                      <ChartDataPoint>
+                                        <ChartDataPointValues>
+                                          <Y>=Sum(Fields!Время_простоя_план.Value)</Y>
+                                        </ChartDataPointValues>
+                                        <ChartDataLabel>
+                                          <Style />
+                                        </ChartDataLabel>
+                                        <Style />
+                                        <ChartMarker>
+                                          <Style />
+                                        </ChartMarker>
+                                        <DataElementOutput>Output</DataElementOutput>
+                                      </ChartDataPoint>
+                                    </ChartDataPoints>
+                                    <Style />
+                                    <ChartEmptyPoints>
+                                      <Style />
+                                      <ChartMarker>
+                                        <Style />
+                                      </ChartMarker>
+                                      <ChartDataLabel>
+                                        <Style />
+                                      </ChartDataLabel>
+                                    </ChartEmptyPoints>
+                                    <ValueAxisName>Primary</ValueAxisName>
+                                    <CategoryAxisName>Primary</CategoryAxisName>
+                                    <ChartSmartLabel>
+                                      <CalloutLineColor>Black</CalloutLineColor>
+                                      <MinMovingDistance>0pt</MinMovingDistance>
+                                    </ChartSmartLabel>
+                                  </ChartSeries>
+                                  <ChartSeries Name="Время_простоя_факт">
+                                    <ChartDataPoints>
+                                      <ChartDataPoint>
+                                        <ChartDataPointValues>
+                                          <Y>=Sum(Fields!Время_простоя_факт.Value)</Y>
+                                        </ChartDataPointValues>
+                                        <ChartDataLabel>
+                                          <Style />
+                                        </ChartDataLabel>
+                                        <Style />
+                                        <ChartMarker>
+                                          <Style />
+                                        </ChartMarker>
+                                        <DataElementOutput>Output</DataElementOutput>
+                                      </ChartDataPoint>
+                                    </ChartDataPoints>
+                                    <Style />
+                                    <ChartEmptyPoints>
+                                      <Style />
+                                      <ChartMarker>
+                                        <Style />
+                                      </ChartMarker>
+                                      <ChartDataLabel>
+                                        <Style />
+                                      </ChartDataLabel>
+                                    </ChartEmptyPoints>
+                                    <ValueAxisName>Primary</ValueAxisName>
+                                    <CategoryAxisName>Primary</CategoryAxisName>
+                                    <ChartSmartLabel>
+                                      <CalloutLineColor>Black</CalloutLineColor>
+                                      <MinMovingDistance>0pt</MinMovingDistance>
+                                    </ChartSmartLabel>
+                                  </ChartSeries>
+                                </ChartSeriesCollection>
+                              </ChartData>
+                              <ChartAreas>
+                                <ChartArea Name="Default">
+                                  <ChartCategoryAxes>
+                                    <ChartAxis Name="Primary">
+                                      <Style>
+                                        <Border>
+                                          <Color>Gainsboro</Color>
+                                          <Style>None</Style>
+                                        </Border>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption>Типы простоев</Caption>
+                                        <Style>
+                                          <FontSize>12pt</FontSize>
+                                          <FontWeight>Bold</FontWeight>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Enabled>True</Enabled>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Enabled>False</Enabled>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMajorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorTickMarks>
+                                      <ChartMinorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>NaN</Maximum>
+                                      <PreventLabelOffset>true</PreventLabelOffset>
+                                      <AllowLabelRotation>None</AllowLabelRotation>
+                                      <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                    <ChartAxis Name="Secondary">
+                                      <Style>
+                                        <Border>
+                                          <Color>Gainsboro</Color>
+                                          <Style>None</Style>
+                                        </Border>
+                                        <FontSize>8pt</FontSize>
+                                        <Color>#5c5c5c</Color>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption />
+                                        <Style>
+                                          <FontSize>9pt</FontSize>
+                                          <Color>#5c5c5c</Color>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Enabled>False</Enabled>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMajorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorTickMarks>
+                                      <ChartMinorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Location>Opposite</Location>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>NaN</Maximum>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                  </ChartCategoryAxes>
+                                  <ChartValueAxes>
+                                    <ChartAxis Name="Primary">
+                                      <Style>
+                                        <Border>
+                                          <Color>Gainsboro</Color>
+                                          <Style>None</Style>
+                                        </Border>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption>Сумма часов простоя</Caption>
+                                        <Style>
+                                          <FontSize>12pt</FontSize>
+                                          <FontWeight>Bold</FontWeight>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMajorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorTickMarks>
+                                      <ChartMinorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>NaN</Maximum>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                    <ChartAxis Name="Secondary">
+                                      <Style>
+                                        <Border>
+                                          <Color>Gainsboro</Color>
+                                          <Style>None</Style>
+                                        </Border>
+                                        <FontSize>8pt</FontSize>
+                                        <Color>#5c5c5c</Color>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption />
+                                        <Style>
+                                          <FontSize>9pt</FontSize>
+                                          <Color>#5c5c5c</Color>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMajorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorTickMarks>
+                                      <ChartMinorTickMarks>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Location>Opposite</Location>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>NaN</Maximum>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                  </ChartValueAxes>
+                                  <Style>
+                                    <BackgroundColor>#00ffffff</BackgroundColor>
+                                    <BackgroundGradientType>None</BackgroundGradientType>
+                                  </Style>
+                                </ChartArea>
+                              </ChartAreas>
+                              <ChartLegends>
+                                <ChartLegend Name="Legend1">
+                                  <Style>
+                                    <BackgroundGradientType>None</BackgroundGradientType>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                  <ChartLegendTitle>
+                                    <Caption />
+                                    <Style>
+                                      <FontSize>8pt</FontSize>
+                                      <FontWeight>Bold</FontWeight>
+                                      <TextAlign>Center</TextAlign>
+                                    </Style>
+                                  </ChartLegendTitle>
+                                  <HeaderSeparatorColor>Black</HeaderSeparatorColor>
+                                  <ColumnSeparatorColor>Black</ColumnSeparatorColor>
+                                </ChartLegend>
+                              </ChartLegends>
+                              <Palette>Pastel</Palette>
+                              <ChartBorderSkin>
+                                <Style>
+                                  <BackgroundColor>Gray</BackgroundColor>
+                                  <BackgroundGradientType>None</BackgroundGradientType>
+                                  <Color>White</Color>
+                                </Style>
+                              </ChartBorderSkin>
+                              <ChartNoDataMessage Name="NoDataMessage">
+                                <Caption>Данные недоступны</Caption>
+                                <Style>
+                                  <BackgroundGradientType>None</BackgroundGradientType>
+                                  <FontWeight>Bold</FontWeight>
+                                  <TextAlign>General</TextAlign>
+                                  <VerticalAlign>Top</VerticalAlign>
+                                </Style>
+                              </ChartNoDataMessage>
+                              <DataSetName>DataSet_Отображающиеся_показатели</DataSetName>
+                              <Top>0.11833in</Top>
+                              <Height>4.25445in</Height>
+                              <Width>10.21542in</Width>
+                              <Style>
+                                <Border>
+                                  <Color>LightGrey</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>White</BackgroundColor>
+                                <BackgroundGradientType>None</BackgroundGradientType>
+                              </Style>
+                            </Chart>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style />
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Отображающиеся_показатели</DataSetName>
+            <PageBreak>
+              <BreakLocation>End</BreakLocation>
+            </PageBreak>
+            <Top>0.42in</Top>
+            <Height>4.37278in</Height>
+            <Width>10.21542in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <FontSize>14pt</FontSize>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>4.79278in</Height>
+        <Style />
+      </Body>
+      <Width>10.21542in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <Language>ru-RU</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>6eae8433-cf73-4780-82e8-e42c1ef19276</rd:ReportID>
+</Report>

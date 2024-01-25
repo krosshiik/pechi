@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34407.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{C9674DCB-5085-4A16-B785-4C70DD1589BD}") = "Integration Services Pechi", "Integration Services Pechi\Integration Services Pechi.dtproj", "{2C75755B-F7D6-4F11-AE29-45D65B0CD589}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C75755B-F7D6-4F11-AE29-45D65B0CD589}.Development|Default.ActiveCfg = Development
+		{2C75755B-F7D6-4F11-AE29-45D65B0CD589}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {29207785-89BA-4200-9047-030AB5271C4C}
+	EndGlobalSection
+EndGlobal

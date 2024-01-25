@@ -1,0 +1,8 @@
+delete from Простои 
+DBCC CHECKIDENT (Простои, RESEED,0) 
+delete from Типы_простоев 
+DBCC CHECKIDENT (Типы_простоев, RESEED,0) 
+delete from Технологические_агрегаты 
+DBCC CHECKIDENT (Технологические_агрегаты, RESEED,0) 
+delete from Ответственные_лица 
+DBCC CHECKIDENT (Ответственные_лица, RESEED,0) 

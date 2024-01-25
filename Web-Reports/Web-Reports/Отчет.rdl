@@ -1,0 +1,629 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=.\;Initial Catalog=Yan_Pechi</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:SecurityType>Integrated</rd:SecurityType>
+      <rd:DataSourceID>f730111b-f635-48bc-8f77-aa2e08deda05</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Отображающиеся_показатели">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Название_простоя">
+            <Value>=Parameters!Название_простоя.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Ответственные_лица">
+            <Value>=Parameters!Ответственные_лица.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT Типы_простоев.Название_простоя, Ответственные_лица.ID, Технологические_агрегаты.Название_агрегата, Технологические_агрегаты.Тип, Ответственные_лица.Фамилия, Простои.Время_простоя_план, 
+                  Простои.Время_простоя_факт
+FROM     Ответственные_лица INNER JOIN
+                  Простои ON Ответственные_лица.ID = Простои.ID_лица INNER JOIN
+                  Технологические_агрегаты ON Простои.ID_Агрегата = Технологические_агрегаты.ID INNER JOIN
+                  Типы_простоев ON Простои.ID_Типа = Типы_простоев.ID
+WHERE  (Типы_простоев.Название_простоя IN (@Название_простоя)) AND (Ответственные_лица.ID IN (@Ответственные_лица))</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Название_простоя">
+          <DataField>Название_простоя</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Название_агрегата">
+          <DataField>Название_агрегата</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Тип">
+          <DataField>Тип</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Фамилия">
+          <DataField>Фамилия</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Время_простоя_план">
+          <DataField>Время_простоя_план</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Время_простоя_факт">
+          <DataField>Время_простоя_факт</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet_Типы_простоев">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>SELECT DISTINCT LTRIM(RTRIM(Название_простоя)) AS Название_простоя
+FROM     Типы_простоев</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Название_простоя">
+          <DataField>Название_простоя</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet_Лица">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>SELECT ID, Фамилия
+FROM     Ответственные_лица
+ORDER BY ID</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Фамилия">
+          <DataField>Фамилия</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet_Агрегаты">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>SELECT ID, Название_агрегата
+FROM     Технологические_агрегаты
+ORDER BY ID</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Название_агрегата">
+          <DataField>Название_агрегата</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Отчет по производству</Value>
+                    <Style>
+                      <FontFamily>Segoe UI Light</FontFamily>
+                      <FontSize>24pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>textbox1</rd:DefaultName>
+            <Height>0.42in</Height>
+            <Width>5.97501in</Width>
+            <Style>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Tablix Name="List1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>5.97501in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>1.14in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="List1_Contents">
+                          <ReportItems>
+                            <Textbox Name="Название_простоя">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!Название_простоя.Value</Value>
+                                      <Style>
+                                        <FontFamily />
+                                        <FontSize>14pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Название_простоя</rd:DefaultName>
+                              <Height>0.27in</Height>
+                              <Width>5.97501in</Width>
+                              <Style>
+                                <FontFamily />
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Tablix Name="matrix1">
+                              <TablixCorner>
+                                <TablixCornerRows>
+                                  <TablixCornerRow>
+                                    <TablixCornerCell>
+                                      <CellContents>
+                                        <Textbox Name="textbox4">
+                                          <CanGrow>true</CanGrow>
+                                          <KeepTogether>true</KeepTogether>
+                                          <Paragraphs>
+                                            <Paragraph>
+                                              <TextRuns>
+                                                <TextRun>
+                                                  <Value />
+                                                  <Style>
+                                                    <FontFamily />
+                                                    <Color>#333333</Color>
+                                                  </Style>
+                                                </TextRun>
+                                              </TextRuns>
+                                              <Style />
+                                            </Paragraph>
+                                          </Paragraphs>
+                                          <rd:DefaultName>textbox4</rd:DefaultName>
+                                          <Style>
+                                            <Border>
+                                              <Color>LightGrey</Color>
+                                            </Border>
+                                            <FontFamily />
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                        </Textbox>
+                                      </CellContents>
+                                    </TablixCornerCell>
+                                  </TablixCornerRow>
+                                </TablixCornerRows>
+                              </TablixCorner>
+                              <TablixBody>
+                                <TablixColumns>
+                                  <TablixColumn>
+                                    <Width>2.18611in</Width>
+                                  </TablixColumn>
+                                  <TablixColumn>
+                                    <Width>1.96945in</Width>
+                                  </TablixColumn>
+                                </TablixColumns>
+                                <TablixRows>
+                                  <TablixRow>
+                                    <Height>0.40917in</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox3">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Sum(Fields!Время_простоя_факт.Value)</Value>
+                                                    <Style>
+                                                      <FontFamily />
+                                                      <Color>#333333</Color>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Center</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>textbox3</rd:DefaultName>
+                                            <Style>
+                                              <Border>
+                                                <Color>LightGrey</Color>
+                                              </Border>
+                                              <BottomBorder>
+                                                <Style>Solid</Style>
+                                              </BottomBorder>
+                                              <FontFamily />
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                              <PaddingRight>2pt</PaddingRight>
+                                              <PaddingTop>2pt</PaddingTop>
+                                              <PaddingBottom>2pt</PaddingBottom>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                        <DataElementOutput>Output</DataElementOutput>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="Время_простоя_план">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Sum(Fields!Время_простоя_план.Value)</Value>
+                                                    <Style>
+                                                      <FontFamily />
+                                                      <Color>#333333</Color>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Center</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>Время_простоя_план</rd:DefaultName>
+                                            <Style>
+                                              <Border>
+                                                <Color>LightGrey</Color>
+                                              </Border>
+                                              <BottomBorder>
+                                                <Style>Solid</Style>
+                                              </BottomBorder>
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                              <PaddingRight>2pt</PaddingRight>
+                                              <PaddingTop>2pt</PaddingTop>
+                                              <PaddingBottom>2pt</PaddingBottom>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                        <DataElementOutput>Output</DataElementOutput>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                </TablixRows>
+                              </TablixBody>
+                              <TablixColumnHierarchy>
+                                <TablixMembers>
+                                  <TablixMember>
+                                    <TablixHeader>
+                                      <Size>0.41917in</Size>
+                                      <CellContents>
+                                        <Textbox Name="textbox6">
+                                          <CanGrow>true</CanGrow>
+                                          <KeepTogether>true</KeepTogether>
+                                          <Paragraphs>
+                                            <Paragraph>
+                                              <TextRuns>
+                                                <TextRun>
+                                                  <Value>Фактическое время простоя, ч.</Value>
+                                                  <Style>
+                                                    <FontFamily />
+                                                    <FontSize>11pt</FontSize>
+                                                    <FontWeight>Bold</FontWeight>
+                                                    <Color>#666666</Color>
+                                                  </Style>
+                                                </TextRun>
+                                              </TextRuns>
+                                              <Style>
+                                                <FontFamily />
+                                                <TextAlign>Center</TextAlign>
+                                              </Style>
+                                            </Paragraph>
+                                          </Paragraphs>
+                                          <rd:DefaultName>textbox6</rd:DefaultName>
+                                          <Style>
+                                            <Border>
+                                              <Color>LightGrey</Color>
+                                            </Border>
+                                            <BottomBorder>
+                                              <Style>Solid</Style>
+                                            </BottomBorder>
+                                            <FontFamily />
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                        </Textbox>
+                                      </CellContents>
+                                    </TablixHeader>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <TablixHeader>
+                                      <Size>0.41917in</Size>
+                                      <CellContents>
+                                        <Textbox Name="Textbox11">
+                                          <CanGrow>true</CanGrow>
+                                          <KeepTogether>true</KeepTogether>
+                                          <Paragraphs>
+                                            <Paragraph>
+                                              <TextRuns>
+                                                <TextRun>
+                                                  <Value>Плановое время простоя, ч</Value>
+                                                  <Style>
+                                                    <FontFamily />
+                                                    <FontSize>11pt</FontSize>
+                                                    <FontWeight>Bold</FontWeight>
+                                                    <Color>#666666</Color>
+                                                  </Style>
+                                                </TextRun>
+                                              </TextRuns>
+                                              <Style>
+                                                <TextAlign>Center</TextAlign>
+                                              </Style>
+                                            </Paragraph>
+                                          </Paragraphs>
+                                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                                          <Style>
+                                            <Border>
+                                              <Color>LightGrey</Color>
+                                            </Border>
+                                            <BottomBorder>
+                                              <Style>Solid</Style>
+                                            </BottomBorder>
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                        </Textbox>
+                                      </CellContents>
+                                    </TablixHeader>
+                                  </TablixMember>
+                                </TablixMembers>
+                              </TablixColumnHierarchy>
+                              <TablixRowHierarchy>
+                                <TablixMembers>
+                                  <TablixMember>
+                                    <Group Name="matrix1_Тип">
+                                      <GroupExpressions>
+                                        <GroupExpression>=Fields!Тип.Value</GroupExpression>
+                                      </GroupExpressions>
+                                    </Group>
+                                    <SortExpressions>
+                                      <SortExpression>
+                                        <Value>=Fields!Тип.Value</Value>
+                                      </SortExpression>
+                                    </SortExpressions>
+                                    <TablixHeader>
+                                      <Size>1.56111in</Size>
+                                      <CellContents>
+                                        <Textbox Name="Тип">
+                                          <CanGrow>true</CanGrow>
+                                          <KeepTogether>true</KeepTogether>
+                                          <Paragraphs>
+                                            <Paragraph>
+                                              <TextRuns>
+                                                <TextRun>
+                                                  <Value>=Fields!Тип.Value</Value>
+                                                  <Style>
+                                                    <FontFamily />
+                                                  </Style>
+                                                </TextRun>
+                                              </TextRuns>
+                                              <Style>
+                                                <FontFamily />
+                                                <TextAlign>Center</TextAlign>
+                                              </Style>
+                                            </Paragraph>
+                                          </Paragraphs>
+                                          <rd:DefaultName>Тип</rd:DefaultName>
+                                          <Style>
+                                            <Border>
+                                              <Color>LightGrey</Color>
+                                            </Border>
+                                            <FontFamily />
+                                            <PaddingLeft>2pt</PaddingLeft>
+                                            <PaddingRight>2pt</PaddingRight>
+                                            <PaddingTop>2pt</PaddingTop>
+                                            <PaddingBottom>2pt</PaddingBottom>
+                                          </Style>
+                                        </Textbox>
+                                      </CellContents>
+                                    </TablixHeader>
+                                    <DataElementOutput>Output</DataElementOutput>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                </TablixMembers>
+                              </TablixRowHierarchy>
+                              <RepeatColumnHeaders>true</RepeatColumnHeaders>
+                              <RepeatRowHeaders>true</RepeatRowHeaders>
+                              <DataSetName>DataSet_Отображающиеся_показатели</DataSetName>
+                              <Top>0.31167in</Top>
+                              <Left>0.65617cm</Left>
+                              <Height>0.82833in</Height>
+                              <Width>5.71668in</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Tablix>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style />
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="list1_Название_простоя">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Название_простоя.Value</GroupExpression>
+                    </GroupExpressions>
+                    <PageBreak>
+                      <BreakLocation>Between</BreakLocation>
+                    </PageBreak>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Название_простоя.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Отображающиеся_показатели</DataSetName>
+            <PageBreak>
+              <BreakLocation>End</BreakLocation>
+            </PageBreak>
+            <Top>0.42in</Top>
+            <Height>1.14in</Height>
+            <Width>5.97501in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <FontSize>14pt</FontSize>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>1.56in</Height>
+        <Style />
+      </Body>
+      <Width>5.97501in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="Название_простоя">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DataSet_Типы_простоев</DataSetName>
+          <ValueField>Название_простоя</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Выберите тип простоя:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DataSet_Типы_простоев</DataSetName>
+          <ValueField>Название_простоя</ValueField>
+          <LabelField>Название_простоя</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Агрегаты">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DataSet_Агрегаты</DataSetName>
+          <ValueField>ID</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Выберите агрегаты:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DataSet_Агрегаты</DataSetName>
+          <ValueField>ID</ValueField>
+          <LabelField>Название_агрегата</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Ответственные_лица">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DataSet_Лица</DataSetName>
+          <ValueField>ID</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Выберите ответственного:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DataSet_Лица</DataSetName>
+          <ValueField>ID</ValueField>
+          <LabelField>Фамилия</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Агрегаты</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Название_простоя</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>Ответственные_лица</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <Language>ru-RU</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>6eae8433-cf73-4780-82e8-e42c1ef19276</rd:ReportID>
+</Report>
